@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Icons } from '@/components/ui/Icon';
 import { SearchHistoryDropdown } from '@/components/search/SearchHistoryDropdown';
 import { useSearchHistory } from '@/lib/hooks/useSearchHistory';
+import { toSimplified } from '@/lib/utils/zh';
 import { useSearchBoxHandlers } from './hooks/useSearchBoxHandlers';
 
 interface SearchBoxProps {
@@ -32,8 +33,9 @@ export function SearchBox({ onSearch, onClear, initialQuery = '', placeholder = 
         navigateDropdown,
         resetHighlight,
     } = useSearchHistory((selectedQuery) => {
-        setQuery(selectedQuery);
-        onSearch(selectedQuery);
+        const normalizedQuery = toSimplified(selectedQuery);
+        setQuery(normalizedQuery);
+        onSearch(normalizedQuery);
         // Blur the input after selecting from history
         inputRef.current?.blur();
     }, isPremium);
@@ -72,7 +74,7 @@ export function SearchBox({ onSearch, onClear, initialQuery = '', placeholder = 
                 ref={inputRef}
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => setQuery(toSimplified(e.target.value))}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
                 onKeyDown={handleKeyDown}

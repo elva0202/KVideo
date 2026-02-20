@@ -3,6 +3,7 @@
  */
 
 import { FormEvent, RefObject } from 'react';
+import { toSimplified } from '@/lib/utils/zh';
 
 interface UseSearchBoxHandlersProps {
     query: string;
@@ -39,9 +40,12 @@ export function useSearchBoxHandlers({
 }: UseSearchBoxHandlersProps) {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        if (query.trim()) {
-            addSearch(query.trim());
-            onSearch(query);
+        const trimmed = query.trim();
+        if (trimmed) {
+            const normalizedQuery = toSimplified(trimmed);
+            setQuery(normalizedQuery);
+            addSearch(normalizedQuery);
+            onSearch(normalizedQuery);
             hideDropdown();
             inputRef.current?.blur();
         }
