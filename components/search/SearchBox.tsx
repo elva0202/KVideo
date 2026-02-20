@@ -74,7 +74,7 @@ export function SearchBox({ onSearch, onClear, initialQuery = '', placeholder = 
                 ref={inputRef}
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(toSimplified(e.target.value))}
+                onChange={(e) => setQuery(e.target.value)}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
                 onKeyDown={handleKeyDown}
